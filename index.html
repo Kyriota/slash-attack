@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SLASH: Scratched Lenses, Shifted Depth</title>
   <meta name="description" content="SLASH (NDSS 2027): a few scratches on a camera's lens or protective cover turn headlights and sunlight glints into streaks that make depth-estimation and 3D-detection models misjudge how far away a car is.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kyriota.com/slash-attack/">
   <meta property="og:title" content="SLASH: Scratched Lenses, Shifted Depth (NDSS 2027)">
-  <meta property="og:description" content="A few lens scratches make depth models see a car up to 32% closer or 36% farther. The scratch stays dormant until a headlight or sunlight glint hits it.">
-  <meta property="og:image" content="static/img/teaser.png">
+  <meta property="og:description" content="A few lens scratches, dormant until a headlight hits them, make depth models misjudge how far away a car is.">
+  <meta property="og:image" content="https://kyriota.com/slash-attack/static/img/teaser.png">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230e1116'/%3E%3Cpath d='M7 25L25 7' stroke='%23ffb27a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
@@ -31,10 +34,6 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6z M14 2v6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
         Paper
       </a>
-      <a class="btn" href="https://dx.doi.org/10.14722/ndss.2027.231849">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        DOI
-      </a>
       <span class="btn disabled" title="Code release in preparation">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Code (coming soon)
@@ -51,17 +50,18 @@
 
 <section class="container tldr">
   <p class="lead">
-    A few small scratches on a camera's lens cover can make a car's depth perception misjudge how far away another car is, by up to a third.
-    The scratch does nothing on its own.
-    It switches on only when a headlight or a glint of sunlight shines through it.
+    A few small scratches on a camera's protective cover can make AI depth-perception models misjudge how far away a car is.
+    In our strongest outdoor test case, a car about 20&nbsp;m away was estimated at roughly 26&nbsp;m.
+    The scratch stays dormant: it only acts when a headlight or a glint of sunlight shines through it.
   </p>
+  <p class="acronym">SLASH stands for <strong>S</strong>cratch-induced <strong>L</strong>ens <strong>A</strong>dversarial <strong>S</strong>treak <strong>H</strong>ijacking.</p>
 </section>
 
 <section class="container" id="demo">
   <h2>See it on a real camera</h2>
   <p class="section-intro">
-    We mounted two identical cameras on top of each other, one behind a clean cover and one behind a scratched cover, and filmed a car.
-    Drag the slider to compare what each camera sees (top) and the depth that the md4all model predicts from it (bottom; brighter means closer).
+    We stacked two identical cameras, one behind a clean cover and one behind a scratched cover, and filmed an approaching car.
+    Drag the slider to compare what each camera sees (top) and the depth that the md4all model predicts from it (bottom).
   </p>
   <div class="toggle" role="group" aria-label="Lighting condition">
     <button type="button" class="toggle-btn active" data-scene="night" aria-pressed="true">Night</button>
@@ -77,10 +77,13 @@
     <div class="compare-handle" aria-hidden="true"><span></span></div>
     <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Comparison slider: scratched cover on the left, clean cover on the right">
   </div>
+  <div class="depth-legend" aria-hidden="true">
+    <span>far</span><span class="ramp"></span><span>near</span>
+  </div>
   <p class="caption">
-    Real captures from our physical experiment, same moment, same scene.
-    The only difference between the two cameras is the scratched cover.
-    The streaks around the headlights and the reflection on the car body come from the scratches, and the depth map around the car changes with them.
+    Real frames captured at the same moment by the two cameras.
+    The cameras sit about 3&nbsp;cm apart, so their views differ slightly.
+    The streaks around the headlights (night) and the sunlit car body (day) come from the scratches, and the predicted depth around the car changes with them.
   </p>
 </section>
 
@@ -110,7 +113,7 @@
       </li>
     </ol>
     <figure class="figure narrow">
-      <img src="static/img/teaser.png" alt="(a) A small scratch on the lens. (b) Clean versus attacked image with a scratch-induced streak. (c) Bird's-eye view: the predicted car position shifts away from the ground truth.">
+      <div class="scroll-x"><img src="static/img/teaser.png" alt="(a) A small scratch on the lens. (b) Clean versus attacked image with a scratch-induced streak. (c) Bird's-eye view: the predicted car position shifts away from the ground truth."></div>
       <figcaption>(a) The scratch looks like ordinary wear. (b) A bright light turns it into a streak. (c) The model places the car at the wrong distance.</figcaption>
     </figure>
   </div>
@@ -122,9 +125,9 @@
     <div>
       <h3>A new kind of physical attack</h3>
       <p>
-        Most physical attacks on cameras change <em>what the camera sees</em>: a sticker on a stop sign, a projector, a laser.
-        The attacker usually has to be there, or the trick sits in plain view.
-        SLASH changes <em>the camera itself</em>, needs nobody present once the scratch is in place, and stays quiet until the scene supplies the light.
+        Most physical attacks on cameras change <em>what the camera sees</em>: a patch on a stop sign, a projector, a laser.
+        A few recent attacks instead modify the camera, with a printed sticker or an extra optical element on the lens, but those alter every single frame.
+        Among these attack classes, SLASH is the only one that sits on the camera, needs nobody present afterward, lasts, <em>and</em> only acts when the scene triggers it.
       </p>
       <p>
         A scratch also has a built-in excuse.
@@ -135,13 +138,14 @@
       <table class="compare-table">
         <caption>How SLASH compares with earlier physical attacks</caption>
         <thead>
-          <tr><th scope="col">Attack</th><th scope="col">On the camera</th><th scope="col">No attacker needed later</th><th scope="col">Fires only when triggered</th><th scope="col">Lasts</th></tr>
+          <tr><th scope="col">Attack</th><th scope="col">On the camera</th><th scope="col">No attacker needed later</th><th scope="col">Acts only when triggered</th><th scope="col">Lasts</th></tr>
         </thead>
         <tbody>
           <tr><th scope="row">Scene patch / poster</th><td class="no">✗</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td></tr>
           <tr><th scope="row">Laser / projector</th><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td><td class="no">✗</td></tr>
           <tr><th scope="row">Adversarial lens flare</th><td class="no">✗</td><td class="no">✗</td><td class="yes">✓</td><td class="no">✗</td></tr>
           <tr><th scope="row">Camera sticker</th><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td></tr>
+          <tr><th scope="row">Extra optical element</th><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="yes">✓</td></tr>
           <tr class="ours"><th scope="row">SLASH (ours)</th><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
         </tbody>
       </table>
@@ -164,8 +168,40 @@
     </p>
     <div class="method">
       <figure class="figure method-fig">
-        <img src="static/img/light_path.png" alt="Light from a compact source passes a scratch on the front optical element; scattered rays land beside the normal image point and form an elongated streak on the sensor.">
-        <figcaption>Light that hits the scratch is scattered sideways and spreads into a streak on the sensor.</figcaption>
+        <svg class="optics" viewBox="0 0 520 300" role="img" aria-label="Light from a headlight passes through a cover and a lens. Most rays focus to a point on the image sensor; rays that hit the scratch on the cover are scattered and spread into a streak on the sensor.">
+          <defs>
+            <radialGradient id="glow"><stop offset="0" stop-color="#ffd27a"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+            <linearGradient id="streakgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff8a4c" stop-opacity="0"/><stop offset="0.5" stop-color="#ff8a4c"/><stop offset="1" stop-color="#ff8a4c" stop-opacity="0"/></linearGradient>
+          </defs>
+          <circle cx="44" cy="150" r="34" fill="url(#glow)"/>
+          <circle cx="44" cy="150" r="9" fill="#ffc94d"/>
+          <g class="ray-normal">
+            <line x1="44" y1="150" x2="250" y2="95"/><line x1="250" y1="95" x2="440" y2="150"/>
+            <line x1="44" y1="150" x2="250" y2="205"/><line x1="250" y1="205" x2="440" y2="150"/>
+            <line x1="44" y1="150" x2="440" y2="150"/>
+          </g>
+          <g class="ray-scatter">
+            <line x1="190" y1="118" x2="440" y2="180"/>
+            <line x1="190" y1="118" x2="440" y2="205"/>
+            <line x1="190" y1="118" x2="440" y2="232"/>
+            <line x1="190" y1="118" x2="440" y2="258"/>
+          </g>
+          <rect class="cover" x="184" y="60" width="12" height="180" rx="2"/>
+          <line x1="181" y1="112" x2="199" y2="124" stroke="#e03131" stroke-width="4" stroke-linecap="round"/>
+          <ellipse class="lens" cx="250" cy="150" rx="14" ry="72"/>
+          <rect class="sensor" x="440" y="60" width="10" height="220" rx="2"/>
+          <rect x="452" y="170" width="8" height="96" rx="3" fill="url(#streakgrad)"/>
+          <circle cx="445" cy="150" r="5" fill="#ffc94d"/>
+          <g class="labels">
+            <text x="44" y="200" text-anchor="middle">Headlight</text>
+            <text x="190" y="50" text-anchor="middle">Cover with scratch</text>
+            <text x="250" y="250" text-anchor="middle">Lens</text>
+            <text x="445" y="50" text-anchor="middle">Sensor</text>
+            <text x="470" y="140" text-anchor="start">image</text>
+            <text x="470" y="222" text-anchor="start" class="streak-label">streak</text>
+          </g>
+        </svg>
+        <figcaption>Most light from the headlight focuses to a point (blue). Light that hits the scratch is scattered and spreads into a streak on the sensor (orange).</figcaption>
       </figure>
       <ol class="method-steps">
         <li>
@@ -174,11 +210,11 @@
         </li>
         <li>
           <h3>A lightweight renderer draws it</h3>
-          <p>Instead of an expensive physics simulation, SLASH paints a soft, light-like streak that brightens the image the way real scattered light does. That is all the depth model needs to be fooled.</p>
+          <p>Instead of an expensive physics simulation, SLASH paints a soft, light-like streak that brightens the image the way real scattered light does. Depth models react mainly to where the streak is, its direction, size, and contrast, so fine photometric detail is not needed.</p>
         </li>
         <li>
-          <h3>One scratch for the whole drive</h3>
-          <p>A scratch cannot be changed after it is made, so SLASH searches for a single scratch pattern that works across every frame of a scene as the car moves. The search only needs the model's outputs, not its gradients.</p>
+          <h3>One scratch for the whole scene</h3>
+          <p>A scratch cannot be changed after it is made, so SLASH searches for a single scratch pattern that works across every frame of a scene as the target car moves. The search only needs the model's outputs, not its gradients.</p>
         </li>
       </ol>
     </div>
@@ -188,58 +224,64 @@
 <section class="container" id="results">
   <h2>Results</h2>
   <p class="section-intro">
-    We attacked three monocular depth estimators (MonoDepth2, md4all, DCPI-Depth) and three monocular 3D detectors (FCOS3D, PGD, OVM3D) on nuScenes driving scenes, then tested engraved acrylic and glass covers on real cameras.
+    We attacked three depth-estimation models and three 3D object detectors.
     The attacker picks a direction: make the target car look <em>closer</em> or <em>farther</em>.
   </p>
   <div class="stats">
     <div class="stat">
       <span class="stat-value">32%</span>
-      <span class="stat-label">closer than it really is, on md4all at night</span>
+      <span class="stat-label">closer than the model's normal estimate (driving data, simulated scratches)</span>
     </div>
     <div class="stat">
       <span class="stat-value">36%</span>
-      <span class="stat-label">farther than it really is, on DCPI-Depth at night</span>
+      <span class="stat-label">farther than the model's normal estimate (driving data, simulated scratches)</span>
     </div>
     <div class="stat">
-      <span class="stat-value">up to 90%</span>
-      <span class="stat-label">of the effect kept on scenes and cars never seen during optimization</span>
+      <span class="stat-value">7.0&nbsp;m</span>
+      <span class="stat-label">distance shift at night with real scratched covers (4.7&nbsp;m by day)</span>
     </div>
     <div class="stat">
-      <span class="stat-value">6 models</span>
-      <span class="stat-label">3 depth estimators and 3 3D detectors, all affected</span>
+      <span class="stat-value">2&nbsp;m</span>
+      <span class="stat-label">reported by a stereo camera for a surface 21&nbsp;m away, with only one of its two lenses scratched</span>
     </div>
   </div>
 
   <h3>On driving data</h3>
   <p>
-    The same scratch pattern shifts the car's predicted depth across a whole sequence of frames, in daytime and at night.
-    Random scratches move the prediction much less, so the effect comes from the optimized placement, not from scratches in general.
-    3D detectors are harder to push (up to about 9% shift), but the attack still moves their distance estimates in the chosen direction.
+    We cannot scratch the cameras that recorded the public nuScenes driving dataset, so for these tests we add the streaks with our renderer.
+    The same scratch pattern shifts the target car's predicted depth across a whole sequence of frames, by day and at night.
+    Random scratches shift it less than optimized ones in every setting, so the effect comes from the optimized placement, not from scratches in general.
+    3D detectors are harder to push (up to about 9%), but the attack still moves their distance estimates in the chosen direction.
+  </p>
+  <p>
+    A scratch has to be made before the attacker knows which car it will meet.
+    Tested on scenes and cars never used to design it (at a similar distance and angle), the scratch keeps more than half of its effect in 8 of 12 settings, and up to about 90%.
   </p>
   <figure class="figure wide">
-    <div class="col-labels" aria-hidden="true">
-      <span>Clean</span><span>Scratched</span><span>Clean depth</span><span>Attacked depth</span><span>Depth change</span>
+    <div class="scroll-x">
+      <div class="scroll-inner">
+        <div class="col-labels" aria-hidden="true">
+          <span>Clean</span><span>Attacked (simulated)</span><span>Clean depth</span><span>Attacked depth</span><span>Depth change</span>
+        </div>
+        <img src="static/img/digital_md4all.jpg" alt="Two nuScenes examples, day and night: clean image, image with simulated streaks, clean and attacked md4all depth maps, and the depth difference concentrated around the target car.">
+      </div>
     </div>
-    <img src="static/img/digital_md4all.jpg" alt="Two nuScenes examples, day and night: clean image, attacked image with streaks, clean and attacked md4all depth maps, and the depth difference concentrated around the target car.">
-    <figcaption>nuScenes examples on md4all (top: day, bottom: night). The depth change concentrates on and around the target car.</figcaption>
+    <figcaption>nuScenes examples on md4all (top: day, bottom: night). In the depth-change panel, red and blue mark regions predicted farther and closer; the change concentrates on and around the target car.</figcaption>
   </figure>
 
   <h3>On real cameras</h3>
   <p>
-    We engraved the patterns optimized on nuScenes onto acrylic and glass covers, without re-tuning them for our test site, and filmed a real SUV with a clean and a scratched camera side by side.
-    At night, the scratched camera's distance estimate shifted by about 17%, far beyond the model's normal frame-to-frame jitter.
-    With the headlights pointing straight into the camera, the scratched camera lost the car entirely in every frame, while the clean camera lost it in only 6% of frames.
+    We engraved patterns optimized on nuScenes onto acrylic and glass covers, without re-tuning them for our test site, and filmed a real SUV with a clean camera and a scratched camera stacked together.
+    The scratched camera shifted the car's estimated distance by about 4.7&nbsp;m by day and 7.0&nbsp;m at night, the same meter-level range reported by prior physical attacks on depth that modify the scene or add optics to the lens.
+    With the car's lights switched off, the same scratched cover changed the estimate by less than 2%, so the scratch really does stay dormant until triggered.
+    The attack even fooled a stereo camera, whose second, clean lens was not enough to catch it.
   </p>
   <div class="gallery">
-    <figure><img src="static/img/scratched_covers.jpg" alt="Two scratched glass covers on a gray surface; the scratches are faint." loading="lazy"><figcaption>Scratched glass covers. The marks are hard to spot.</figcaption></figure>
+    <figure><img src="static/img/scratched_covers.jpg" alt="Two glass covers on a gray surface; the left one carries the engraved scratch pattern." loading="lazy"><figcaption>Glass covers: the left one is engraved.</figcaption></figure>
     <figure><img src="static/img/tools.jpg" alt="A glass cutter, a box of microscope slides, and two slides." loading="lazy"><figcaption>The tools: off-the-shelf glass and a glass cutter.</figcaption></figure>
     <figure><img src="static/img/setup_camera.jpg" alt="Two stacked cameras on a tripod, each behind a transparent cover." loading="lazy"><figcaption>Two stacked cameras: one clean cover, one scratched.</figcaption></figure>
     <figure><img src="static/img/setup_site.jpg" alt="The test site: tripod-mounted cameras facing a white SUV." loading="lazy"><figcaption>The outdoor test site.</figcaption></figure>
   </div>
-  <figure class="figure narrow">
-    <img src="static/img/physical_ovm3d_angle.png" alt="Line chart of depth shift and target loss rate versus viewing angle, day and night, for acrylic and glass covers; the gray band marks normal prediction jitter." loading="lazy">
-    <figcaption>Physical results on the OVM3D detector as the viewing angle changes. Points outside the gray band are shifts beyond the model's normal jitter; bars show how often the car was lost.</figcaption>
-  </figure>
 </section>
 
 <section class="band">
@@ -249,7 +291,7 @@
     <div class="cards">
       <div class="card">
         <h3>Flare removal</h3>
-        <p>Reduces the depth shift, but also wipes out legitimate bright details in the scene.</p>
+        <p>Off-the-shelf flare-removal networks barely dent the nighttime attack (a 23% shift drops only to about 20%), and one of them also erases real headlights and lamps.</p>
       </div>
       <div class="card">
         <h3>Image enhancement</h3>
@@ -261,7 +303,7 @@
       </div>
     </div>
     <p class="takeaway">
-      The lesson: a defense has to check the camera's optical path itself, not just the images or depth it produces.
+      An effective defense likely needs to check the camera's optical path itself, not just the images or depth it produces.
     </p>
   </div>
 </section>
@@ -270,27 +312,27 @@
   <h2>FAQ</h2>
   <details>
     <summary>Is my car affected?</summary>
-    <p>Our study targets research models (open monocular depth estimators and 3D detectors) on public driving data and on our own camera rig. We did not test any commercial vehicle. The point is that camera-based depth perception in general treats lens artifacts as real scene content, and nothing in today's pipelines checks for that.</p>
+    <p>We did not test any commercial vehicle. Our study targets open research models for depth estimation and 3D detection, on public driving data and on our own camera rig with an exposed protective cover. Cameras behind a curved windshield are untested, and systems that fuse cameras with LiDAR or radar may be affected differently. The broader finding is that camera-based depth perception treats lens artifacts as real scene content.</p>
   </details>
   <details>
     <summary>Wouldn't someone notice the scratch?</summary>
-    <p>The scratches are small and hard to see without a close look at the right angle. When they do produce a streak, it looks like flare from an ordinary worn or dirty lens. Someone who notices it would most likely blame wear rather than suspect an attack.</p>
+    <p>The scratches are small and easy to miss without a close look at the right angle. When they do produce a streak, it looks like flare from an ordinary worn or dirty lens. Someone who notices it would most likely blame wear rather than suspect an attack.</p>
   </details>
   <details>
     <summary>What does the attacker need?</summary>
-    <p>A short window of unattended access to the camera, comparable to parking or a service visit, and something to scratch with. To design the pattern, they need rough camera specifications (focal length, aperture, sensor size) and a similar model to test against offline. They never touch the vehicle's electronics, software, or model.</p>
+    <p>A short window of unattended access to the camera, comparable to parking or a service visit, and something to scratch with. To design the pattern, they need rough camera specifications (focal length, aperture, sensor size) and a model of the same kind to test against offline. They never touch the vehicle's electronics, software, or model.</p>
   </details>
   <details>
     <summary>Does it need a bright light?</summary>
-    <p>Yes, and that is a feature: the scratch stays dormant until the scene provides a compact bright source. Headlights at night are the strongest trigger. In daytime, sunlight reflecting off the target car's body also works.</p>
+    <p>Yes. Headlights at night are the strongest trigger. In daytime, sunlight reflecting off the target car's body also works. Without a compact bright source, the scratch has almost no effect.</p>
   </details>
   <details>
     <summary>Does one scratch work on any car, anywhere?</summary>
-    <p>Not anywhere. A scratch pattern works best for targets at a similar distance and angle to the ones it was optimized for. Within that range it carries over to new roads and new cars, keeping up to about 90% of its effect.</p>
+    <p>Not anywhere. A scratch pattern works best for targets at a similar distance and angle to the ones it was designed for. Within that range it carries over to new roads and new cars.</p>
   </details>
   <details>
     <summary>Why depth, and not just object detection?</summary>
-    <p>Decisions such as braking depend on how far away other cars are. At night, the attack keeps the target car detected but places it at the wrong distance, so later modules receive an input that looks valid and is wrong.</p>
+    <p>Decisions such as braking depend on how far away other cars are. In our nighttime driving-data tests, the 3D detectors still found the target car in more than 99% of cases but placed it at the wrong distance, so later modules receive an input that looks valid and is wrong.</p>
   </details>
 </section>
 

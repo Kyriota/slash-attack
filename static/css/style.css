@@ -241,12 +241,44 @@ h3 { font-size: 1.1rem; margin: 28px 0 8px; }
 .caption, figcaption { color: var(--muted); font-size: 0.92rem; max-width: 720px; }
 figcaption { margin-top: 8px; }
 
+.acronym { color: var(--muted); font-size: 0.95rem; margin: 14px 0 0 22px; }
+
+.depth-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 720px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.depth-legend .ramp {
+  flex: 0 0 160px;
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #0d0887, #7e03a8, #cc4778, #f89540, #f0f921);
+}
+
 /* Figures */
 
 .figure { margin: 28px 0 0; }
 .figure img { border-radius: 6px; background: #fff; }
-.figure.narrow { max-width: 760px; }
+.figure.narrow { max-width: 760px; margin-left: auto; margin-right: auto; }
 .figure.wide figcaption { max-width: none; }
+
+/* Dense figures keep a readable minimum width and scroll sideways on phones. */
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.scroll-x > img { min-width: 560px; }
+.scroll-inner { min-width: 900px; }
+
+.optics { width: 100%; height: auto; }
+.optics .ray-normal line { stroke: #4c8fd6; stroke-width: 2; opacity: 0.8; }
+.optics .ray-scatter line { stroke: #ff8a4c; stroke-width: 2; stroke-dasharray: 5 4; }
+.optics .cover { fill: #a5d8ff; opacity: 0.6; }
+.optics .lens { fill: #a5d8ff; opacity: 0.45; stroke: #4c8fd6; stroke-width: 1.5; }
+.optics .sensor { fill: var(--muted); }
+.optics .labels text { fill: var(--text); font-size: 14px; font-family: "Inter", sans-serif; }
+.optics .labels .streak-label { fill: var(--accent); font-weight: 600; }
 
 .col-labels {
   display: grid;
@@ -419,4 +451,12 @@ details.abstract p { color: var(--text); margin-top: 14px; }
   .lead { font-size: 1.15rem; }
   h2 { font-size: 1.6rem; }
   .col-labels { font-size: 0.6rem; }
+}
+
+/* Center the demo column on wide screens. */
+#demo .compare, #demo .depth-legend, #demo .caption { margin-left: auto; margin-right: auto; }
+#demo .toggle { display: flex; width: fit-content; margin-left: auto; margin-right: auto; }
+
+@media (max-width: 520px) {
+  .streak { opacity: 0.45; }
 }
