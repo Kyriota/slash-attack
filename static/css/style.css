@@ -268,4 +268,4 @@ details p { color: var(--muted); }
   .steps, .stats { grid-template-columns: 1fr; }
 }
 
-.teaser { max-width: 780px; margin-left: auto; margin-right: auto; }
+.teaser { max-width: 470px; margin-left: auto; margin-right: auto; }
