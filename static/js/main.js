@@ -1,11 +1,15 @@
-// Interactive pieces of the SLASH project page: the clean/scratched comparison slider,
-// its day/night toggle, and the BibTeX copy button.
+// Interactive pieces of the SLASH project page: the linked clean/scratched comparison sliders,
+// their day/night toggle, and the BibTeX copy button.
 
 const compare = document.getElementById("compare");
-const range = compare.querySelector(".compare-range");
+const ranges = compare.querySelectorAll(".compare-range");
 
-range.addEventListener("input", () => {
-  compare.style.setProperty("--pos", `${range.value}%`);
+// Every slider drives one shared position, so the image and depth panels move together.
+ranges.forEach((range) => {
+  range.addEventListener("input", () => {
+    compare.style.setProperty("--pos", `${range.value}%`);
+    ranges.forEach((other) => { other.value = range.value; });
+  });
 });
 
 document.querySelectorAll(".toggle-btn").forEach((button) => {
