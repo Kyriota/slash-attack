@@ -220,12 +220,6 @@ figcaption, .caption { color: var(--muted); font-size: 0.9rem; margin-top: 8px; 
 .defenses { padding-left: 20px; }
 .defenses li { margin-bottom: 8px; }
 
-/* FAQ */
-
-details { border-bottom: 1px solid var(--border); }
-details summary { cursor: pointer; font-weight: 600; padding: 10px 0; }
-details p { color: var(--muted); }
-
 /* BibTeX */
 
 .bib { position: relative; }

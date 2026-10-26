@@ -245,34 +245,6 @@
   <p>An effective defense likely needs to check the camera's optical path itself, not just the images or depth it produces.</p>
 </section>
 
-<section class="container" id="faq">
-  <h2>FAQ</h2>
-  <details>
-    <summary>Is my car affected?</summary>
-    <p>We did not test any commercial vehicle. Our study targets open research models for depth estimation and 3D detection, on public driving data and on our own camera rig with an exposed protective cover. Cameras behind a curved windshield are untested, and systems that fuse cameras with LiDAR or radar may be affected differently. The broader finding is that camera-based depth perception treats lens artifacts as real scene content.</p>
-  </details>
-  <details>
-    <summary>Wouldn't someone notice the scratch?</summary>
-    <p>The scratches are small and easy to miss without a close look at the right angle. When they do produce a streak, it looks like flare from an ordinary worn or dirty lens. Someone who notices it would most likely blame wear rather than suspect an attack.</p>
-  </details>
-  <details>
-    <summary>What does the attacker need?</summary>
-    <p>A short window of unattended access to the camera, comparable to parking or a service visit, and something to scratch with. To design the pattern, they need rough camera specifications (focal length, aperture, sensor size) and a model of the same kind to test against offline. They never touch the vehicle's electronics, software, or model.</p>
-  </details>
-  <details>
-    <summary>Does it need a bright light?</summary>
-    <p>Yes. Headlights at night are the strongest trigger. In daytime, sunlight reflecting off the target car's body also works. Without a compact bright source, the scratch has almost no effect.</p>
-  </details>
-  <details>
-    <summary>Does one scratch work on any car, anywhere?</summary>
-    <p>Not anywhere. A scratch pattern works best for targets at a similar distance and angle to the ones it was designed for. Within that range it carries over to new roads and new cars.</p>
-  </details>
-  <details>
-    <summary>Why depth, and not just object detection?</summary>
-    <p>Decisions such as braking depend on how far away other cars are. In our nighttime driving-data tests, the 3D detectors still found the target car in more than 99% of cases but placed it at the wrong distance, so later modules receive an input that looks valid and is wrong.</p>
-  </details>
-</section>
-
 <section class="container">
   <h2>Abstract</h2>
   <p>Physical adversarial attacks on vision systems are typically studied via scene manipulation, such as adversarial patches or projections, where the adversary controls what the camera observes at capture time. A smaller body of work has examined camera-side manipulations, such as camera stickers and auxiliary optics, which introduce consistent artifacts in the captured image. However, these approaches treat the attack as an image-space perturbation produced by designed transmissive patterns, without explicitly modeling how physical imperfections interact with scene-dependent lighting and optics. In contrast, we identify a distinct and underexplored threat: passive lens-side damage that is persistent yet trigger-conditioned, producing scene-dependent optical artifacts that bias geometric inference.</p>
