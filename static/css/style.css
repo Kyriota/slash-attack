@@ -82,7 +82,7 @@ h3 { font-size: 20px; line-height: 1.35; }
 
 .figure-frame { padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
 .figure-frame img { width: 100%; }
-.figure-caption { margin-top: 10px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.figure-caption { margin-top: 10px; color: var(--muted); font-size: 15px; line-height: 1.6; text-align: center; }
 
 .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .scroll-inner { min-width: 760px; }
@@ -140,7 +140,7 @@ h3 { font-size: 20px; line-height: 1.35; }
 .evidence-stack { display: grid; gap: 28px; margin-top: 16px; }
 .gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .gallery img { aspect-ratio: 1; width: 100%; object-fit: cover; border-radius: 8px; }
-.gallery figcaption { margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.gallery figcaption { margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.5; text-align: center; }
 
 .closing-note { margin-top: 16px; padding: 16px 22px; border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--ink); font-weight: 600; }
 
