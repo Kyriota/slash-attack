@@ -20,7 +20,7 @@
       <a class="wordmark" href="#top" aria-label="SLASH home">SLASH</a>
       <div class="nav-links">
         <a href="#demo">Demo</a>
-        <a href="#threat-model">Threat Model</a>
+        <a href="#threat-model">Attack</a>
         <a href="#method">Method</a>
         <a href="#results">Results</a>
         <a href="#defenses">Defenses</a>
@@ -46,30 +46,30 @@
       </div>
       <p class="hero-summary">
         <strong>TL;DR</strong>
-        A few small scratches on a camera's protective cover can make depth-perception models misjudge how far away a car is.
-        The scratch stays dormant until a headlight or a glint of sunlight shines through it.
+        A few small scratches on a camera's protective cover can make AI models misjudge how far away a car is.
+        The scratches barely matter until a headlight or a glint of sunlight shines through them.
       </p>
     </section>
 
     <section class="abstract-section container" aria-labelledby="abstract-title">
       <div class="abstract-layout">
+        <figure class="concept-figure">
+          <div class="figure-frame"><img src="static/img/teaser.png" alt="(a) A small scratch on the lens. (b) Clean versus attacked image with a scratch-induced streak. (c) Bird's-eye view: the predicted car position shifts away from the ground truth."></div>
+          <figcaption class="figure-caption">(a) A small scratch on the lens looks like ordinary wear. (b) A bright light turns it into a streak. (c) The model places the car at the wrong distance.</figcaption>
+        </figure>
         <div class="abstract-copy">
           <h2 id="abstract-title">Abstract</h2>
           <p>Physical adversarial attacks on vision systems are typically studied via scene manipulation, such as adversarial patches or projections, where the adversary controls what the camera observes at capture time. A smaller body of work has examined camera-side manipulations, such as camera stickers and auxiliary optics, which introduce consistent artifacts in the captured image. However, these approaches treat the attack as an image-space perturbation produced by designed transmissive patterns, without explicitly modeling how physical imperfections interact with scene-dependent lighting and optics. In contrast, we identify a distinct and underexplored threat: passive lens-side damage that is persistent yet trigger-conditioned, producing scene-dependent optical artifacts that bias geometric inference.</p>
           <p>We instantiate this threat through Scratch-induced Lens Adversarial Streak Hijacking (SLASH), a physical-world attack caused by small scratches on a camera lens or protective cover. These scratches interact with bright point-like light sources and specular reflections to generate structured optical artifacts that systematically distort depth cues. Crucially, the perturbation is fixed in the optical path but conditionally triggered by the scene, making it both persistent and selective. To capture this behavior, we formulate the attack in optical space rather than pixel space, modeling the scratch pattern as a trigger-conditioned optical channel, and using the same scratch pattern across diverse viewing conditions. We evaluate SLASH in both digital and real-world settings on monocular depth estimation and monocular 3D object detection. On the nuScenes dataset, SLASH causes monocular depth models to estimate target vehicles as up to 32% closer to the camera or 36% farther away, with consistent effects extending to monocular 3D object detection. Physical experiments with both acrylic and glass covers confirm that the attack produces substantial depth errors on real camera inputs. These findings reveal a new attack surface in which benign-looking hardware imperfections act as latent, scene-triggered adversarial mechanisms, challenging existing assumptions about physical robustness and highlighting the need to account for optical-path perturbations in secure vision system design.</p>
         </div>
-        <figure class="concept-figure">
-          <div class="figure-frame"><img src="static/img/teaser.png" alt="(a) A small scratch on the lens. (b) Clean versus attacked image with a scratch-induced streak. (c) Bird's-eye view: the predicted car position shifts away from the ground truth."></div>
-          <figcaption class="figure-caption">(a) A small scratch on the lens looks like ordinary wear. (b) A bright light turns it into a streak. (c) The model places the car at the wrong distance.</figcaption>
-        </figure>
       </div>
     </section>
 
     <section class="section" id="demo" aria-labelledby="demo-title">
       <div class="container">
         <div class="section-heading">
-          <h2 id="demo-title">Physical Demonstration</h2>
-          <p>We stacked two identical cameras, one behind a clean cover and one behind a scratched cover, and recorded an approaching vehicle. Drag either slider to compare the two cameras; the camera image and the depth predicted by md4all move together.</p>
+          <h2 id="demo-title">See It on a Real Camera</h2>
+          <p>We put two identical cameras on top of each other, one behind a clean cover and one behind a scratched cover, and filmed a car driving toward them. Drag either slider to compare the two cameras. The camera image and the depth map predicted by the md4all model move together.</p>
         </div>
         <div class="toggle" role="group" aria-label="Lighting condition">
           <button type="button" class="toggle-btn active" data-scene="night" aria-pressed="true">Night</button>
@@ -111,34 +111,34 @@
     <section class="section" id="threat-model" aria-labelledby="threat-title">
       <div class="container">
         <div class="section-heading">
-          <h2 id="threat-title">Threat Model</h2>
-          <p>The attacker needs only a brief window of unattended physical access to the camera. After that, the scratch is fixed and the attacker is absent.</p>
+          <h2 id="threat-title">How the Attack Unfolds</h2>
+          <p>The attacker only needs brief, unsupervised access to the camera, for example while the car is parked or being serviced. After that, the attacker never has to come back.</p>
         </div>
         <ol class="pipeline">
           <li>
             <span class="step-label">STEP 1</span>
             <h3>Design</h3>
-            <p>Offline, the attacker computes where to place a couple of straight scratches so their streaks will mislead the depth model.</p>
+            <p>On a computer, the attacker works out where to put a couple of straight scratches so that their streaks will fool the depth model.</p>
           </li>
           <li>
             <span class="step-label">STEP 2</span>
-            <h3>Deploy</h3>
-            <p>During a window such as parking or servicing, the attacker scratches the lens or its protective cover.</p>
+            <h3>Scratch</h3>
+            <p>The attacker scratches the camera lens or its protective cover.</p>
           </li>
           <li>
             <span class="step-label">STEP 3</span>
             <h3>Leave</h3>
-            <p>The scratch stays in place. The attacker never touches the vehicle, its software, or the model again.</p>
+            <p>The scratch stays in place. The attacker never touches the car, its software, or the model again.</p>
           </li>
           <li>
             <span class="step-label">STEP 4</span>
-            <h3>Scene trigger</h3>
-            <p>When headlights or sunlight reflected from another car hit the scratch, a streak appears next to that car and shifts its predicted distance.</p>
+            <h3>Light sets it off</h3>
+            <p>When light from another car, such as its headlights or sunlight reflecting off its body, hits the scratch, a streak appears next to that car and changes how far away the model thinks it is.</p>
           </li>
         </ol>
         <div class="explanation">
-          <h3>Comparison with prior physical attacks</h3>
-          <p>Most physical attacks change what the camera sees, through a patch in the scene, a projector, or a laser. A few recent attacks modify the camera with a printed sticker or an extra optical element, but those alter every frame. Among these attack classes, SLASH is the only one that is camera-side, passive after deployment, persistent, and triggered by the scene. A scratched lens is also common wear, and its streak resembles ordinary lens flare.</p>
+          <h3>What is new</h3>
+          <p>Most physical attacks change what the camera sees: a patch placed in the scene, a projector, or a laser. A few recent attacks change the camera itself by putting a printed sticker or an extra piece of optics on the lens, but these alter every image the camera takes. Among these kinds of attacks, SLASH is the only one that sits on the camera, needs no attacker afterward, lasts, and only acts when light in the scene sets it off. Scratches are also common, and the streak looks like ordinary lens flare.</p>
         </div>
       </div>
     </section>
@@ -146,8 +146,8 @@
     <section class="section" id="method" aria-labelledby="method-title">
       <div class="container">
         <div class="section-heading">
-          <h2 id="method-title">Method Overview</h2>
-          <p>The attacker cannot choose pixels, only where to scratch. SLASH therefore optimizes the physical scratch parameters and lets the camera optics determine how the streak appears in the image.</p>
+          <h2 id="method-title">How SLASH Works</h2>
+          <p>The attacker cannot edit the image directly; they can only choose where to scratch. SLASH therefore searches over scratch placements and uses a model of the camera optics to predict what each placement does to the image.</p>
         </div>
         <div class="method">
           <figure class="method-figure">
@@ -156,22 +156,22 @@
           </figure>
           <ol class="method-steps">
             <li>
-              <h3>Geometry-constrained scratch-to-streak mapping</h3>
-              <p>Each straight scratch is described by two numbers, its angle and its offset. A thin-lens model predicts where the streak appears, which direction it follows, and how long it is for every light source in the scene.</p>
+              <h3>Predict where the streak lands</h3>
+              <p>Each straight scratch is described by two numbers: its angle and its position on the cover. A simple lens model then predicts, for each bright light in the scene, where the streak appears in the image, which way it points, and how long it is.</p>
             </li>
             <li>
-              <h3>Streak appearance synthesis</h3>
-              <p>A lightweight renderer draws a soft, light-like streak that brightens the image as scattered light would. Depth models respond mainly to the streak's position, direction, size, and contrast, so a full physics simulation is unnecessary.</p>
+              <h3>Draw the streak</h3>
+              <p>A lightweight renderer paints a soft streak that brightens the image the way stray light does. Depth models mainly react to where the streak is, which way it points, how big it is, and how much it stands out, so a full physics simulation is not needed.</p>
             </li>
             <li>
               <h3>One scratch for all frames</h3>
-              <p>A scratch cannot be changed after deployment, so SLASH searches for one scratch pattern that remains effective across every frame of a scene as the target vehicle moves. The search uses only model outputs, not gradients.</p>
+              <p>A scratch cannot be changed once it is made, so SLASH searches for one scratch pattern that keeps working in every frame while the target car moves. The search simply tries candidate scratches and checks the model's predictions.</p>
             </li>
           </ol>
         </div>
         <div class="explanation">
-          <h3>Why a streak affects depth estimation</h3>
-          <p>Estimating distance from a single image is underconstrained, so depth models rely on visual cues such as edges, highlights, shading, and where an object meets the road. A streak lands on exactly these cues, next to the vehicle whose light produced it. The model cannot tell that the streak comes from the lens rather than the scene, so it treats the streak as evidence about the vehicle's shape and distance.</p>
+          <h3>Why a streak fools a depth model</h3>
+          <p>Judging distance from a single photo is hard, so depth models rely on visual hints such as edges, highlights, shading, and where an object touches the road. A streak lands right on these hints, next to the car whose light caused it. The model cannot tell that the streak comes from the lens rather than the scene, so it treats the streak as real information about the car's shape and distance.</p>
         </div>
       </div>
     </section>
@@ -180,40 +180,40 @@
       <div class="container">
         <div class="section-heading">
           <h2 id="results-title">Results</h2>
-          <p>We attack three monocular depth estimators (MonoDepth2, md4all, DCPI-Depth) and three monocular 3D detectors (FCOS3D, PGD, OVM3D). The attacker chooses a direction: make the target vehicle appear closer or farther.</p>
+          <p>We tested three models that estimate depth from a single camera (MonoDepth2, md4all, DCPI-Depth) and three that detect cars in 3D from a single camera (FCOS3D, PGD, OVM3D). The attacker chooses whether to make the target car look closer or farther.</p>
         </div>
         <div class="stats">
           <div class="stat">
             <span class="stat-value">32%</span>
-            <span class="stat-label">closer than the model's clean estimate (nuScenes, rendered streaks)</span>
+            <span class="stat-label">closer than the model's estimate without the attack (driving data, simulated streaks)</span>
           </div>
           <div class="stat">
             <span class="stat-value">36%</span>
-            <span class="stat-label">farther than the model's clean estimate (nuScenes, rendered streaks)</span>
+            <span class="stat-label">farther than the model's estimate without the attack (driving data, simulated streaks)</span>
           </div>
           <div class="stat">
             <span class="stat-value">7.0&nbsp;m</span>
-            <span class="stat-label">depth shift at night with real scratched covers (4.7&nbsp;m by day)</span>
+            <span class="stat-label">change in estimated distance at night with real scratched covers (4.7&nbsp;m by day)</span>
           </div>
         </div>
 
         <div class="findings-list">
           <article class="finding">
-            <h3>Digital attacks on nuScenes</h3>
+            <h3>On driving data</h3>
             <div>
-              <p>The streaks are rendered onto nuScenes frames, since the cameras that recorded the dataset cannot be scratched. One scratch pattern shifts the target's predicted depth across a whole frame sequence, by day and at night. Random scratches shift it less than optimized ones in every setting. 3D detectors are harder to push (up to about 9%), but their distance estimates still move in the chosen direction.</p>
+              <p>nuScenes is a public dataset of real driving recordings. We cannot scratch the cameras that recorded it, so we add simulated streaks to its frames. One scratch pattern shifts the target car's estimated depth across a whole sequence of frames, by day and at night. Random scratches shift it less than optimized ones in every setting. 3D detectors are harder to fool (up to about 9%), but their distance estimates still move in the chosen direction.</p>
             </div>
           </article>
           <article class="finding">
-            <h3>Unseen scenes and vehicles</h3>
+            <h3>New scenes and new cars</h3>
             <div>
-              <p>A scratch must be made before the attacker knows which vehicle it will meet. On scenes and vehicles not used for optimization, at a similar distance and angle, the scratch retains more than half of its effect in 8 of 12 settings, and up to about 90%.</p>
+              <p>The scratch has to be made before the attacker knows which car it will meet. On scenes and cars not used to design the scratch, at a similar distance and angle, it keeps more than half of its effect in 8 of 12 settings, and up to about 90%.</p>
             </div>
           </article>
           <article class="finding">
-            <h3>Physical experiments</h3>
+            <h3>On real cameras</h3>
             <div>
-              <p>Patterns optimized on nuScenes were engraved onto acrylic and glass covers without re-tuning for the test site. The scratched camera shifted the vehicle's estimated distance by about 4.7&nbsp;m by day and 7.0&nbsp;m at night, within the meter-level range reported by prior physical attacks on depth estimation. With the vehicle's lights switched off, the same cover changed the estimate by less than 2%.</p>
+              <p>We engraved scratch patterns designed on nuScenes onto acrylic and glass covers, without adjusting them for our test site. The scratched camera's estimate of the car's distance differed from the clean camera's by about 4.7&nbsp;m by day and 7.0&nbsp;m at night, in the same range as earlier real-world attacks on depth estimation. With the car's lights off, the same scratched cover changed the estimate by less than 2%.</p>
             </div>
           </article>
         </div>
@@ -224,13 +224,13 @@
               <div class="scroll-x">
                 <div class="scroll-inner">
                   <div class="col-labels" aria-hidden="true">
-                    <span>Clean</span><span>Attacked (rendered)</span><span>Clean depth</span><span>Attacked depth</span><span>Depth change</span>
+                    <span>Clean</span><span>Attacked (simulated)</span><span>Clean depth</span><span>Attacked depth</span><span>Depth change</span>
                   </div>
-                  <img src="static/img/digital_md4all.jpg" alt="Two nuScenes examples, day and night: clean image, image with rendered streaks, clean and attacked md4all depth maps, and the depth difference concentrated around the target car." loading="lazy">
+                  <img src="static/img/digital_md4all.jpg" alt="Two nuScenes examples, day and night: clean image, image with simulated streaks, clean and attacked md4all depth maps, and the depth difference concentrated around the target car." loading="lazy">
                 </div>
               </div>
             </div>
-            <figcaption class="figure-caption">nuScenes examples on md4all (top: day, bottom: night). In the depth-change panel, red and blue mark regions predicted farther and closer.</figcaption>
+            <figcaption class="figure-caption">nuScenes examples on md4all (top: day, bottom: night). In the depth-change panel, red and blue mark regions the model now sees as farther and closer.</figcaption>
           </figure>
           <figure class="result-figure">
             <div class="gallery">
@@ -247,24 +247,24 @@
     <section class="section" id="defenses" aria-labelledby="defenses-title">
       <div class="container">
         <div class="section-heading">
-          <h2 id="defenses-title">Countermeasures</h2>
-          <p>We evaluate three defense directions. None of them neutralizes SLASH in our evaluation.</p>
+          <h2 id="defenses-title">Can It Be Defended?</h2>
+          <p>We tried three kinds of defense. None of them stops SLASH in our tests.</p>
         </div>
         <div class="findings-list">
           <article class="finding">
             <h3>Flare removal</h3>
-            <p>Off-the-shelf flare-removal networks barely reduce the nighttime attack (a 23% shift drops only to about 20%), and one of them also removes real headlights and lamps.</p>
+            <p>Existing networks that remove lens flare from images barely weaken the nighttime attack (a 23% shift only drops to about 20%), and one of them also erases real headlights and lamps.</p>
           </article>
           <article class="finding">
             <h3>Image enhancement</h3>
-            <p>Generic enhancement that a driving system might already apply retains the attack effect and can amplify it.</p>
+            <p>Common image enhancement that a driving system might already use does not remove the effect and can even make it stronger.</p>
           </article>
           <article class="finding">
-            <h3>Adversarial training</h3>
-            <p>A hardened model is bypassed by re-optimizing the scratch against it.</p>
+            <h3>Training the model against it</h3>
+            <p>Even after the model is retrained on images with simulated streaks, the attacker can design a new scratch that fools it again.</p>
           </article>
         </div>
-        <p class="closing-note">An effective defense likely needs to inspect the optical path itself, not only the images or depth it produces.</p>
+        <p class="closing-note">A real fix likely needs to check the camera's lens and cover themselves, not just the images or depth estimates they lead to.</p>
       </div>
     </section>
 

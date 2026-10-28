@@ -76,7 +76,7 @@ h3 { font-size: 20px; line-height: 1.35; }
 .abstract-copy h2 { margin-bottom: 16px; }
 .abstract-copy p { font-size: 17px; line-height: 1.75; }
 .abstract-copy p + p { margin-top: 14px; }
-.concept-figure { max-width: 480px; margin: 32px auto 0; }
+.concept-figure { max-width: 480px; margin: 0 auto 32px; }
 
 /* Figures */
 
