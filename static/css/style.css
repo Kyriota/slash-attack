@@ -117,13 +117,6 @@ h3 { font-size: 20px; line-height: 1.35; }
 .explanation { margin-top: 24px; padding: 22px 26px; border-left: 3px solid var(--accent); background: var(--accent-soft); }
 .explanation p { margin-top: 8px; }
 
-.table-wrap { overflow-x: auto; margin-top: 16px; }
-.compare-table { border-collapse: collapse; font-size: 15px; background: #fff; }
-.compare-table th, .compare-table td { padding: 7px 16px; border-bottom: 1px solid var(--line); }
-.compare-table thead th { color: var(--ink); font-weight: 650; border-bottom: 2px solid var(--ink); }
-.compare-table tbody th { text-align: left; font-weight: 400; }
-.compare-table td { text-align: center; }
-.compare-table tr.ours th, .compare-table tr.ours td { color: var(--accent-dark); font-weight: 700; }
 
 /* Method */
 
@@ -135,7 +128,7 @@ h3 { font-size: 20px; line-height: 1.35; }
 
 /* Results */
 
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .stat { padding: 18px; border: 1px solid var(--line); border-radius: var(--radius); text-align: center; }
 .stat-value { display: block; color: var(--accent); font-size: 32px; font-weight: 750; line-height: 1.2; }
 .stat-label { display: block; margin-top: 6px; color: var(--muted); font-size: 14px; line-height: 1.5; }
@@ -170,7 +163,7 @@ code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
 @media (max-width: 950px) {
   .nav-links { display: none; }
   .method { grid-template-columns: 1fr; }
-  .stats, .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .finding { grid-template-columns: 1fr; gap: 6px; }
 }
 
@@ -181,7 +174,7 @@ code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
   .hero { padding-block: 40px; }
   .authors { font-size: 17px; }
   .hero-summary { font-size: 18px; }
-  .compare-pair, .pipeline { grid-template-columns: 1fr; }
+  .compare-pair, .pipeline, .stats { grid-template-columns: 1fr; }
   .figure-frame { padding: 8px; }
   .explanation { padding: 18px; }
 }

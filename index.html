@@ -139,21 +139,6 @@
         <div class="explanation">
           <h3>Comparison with prior physical attacks</h3>
           <p>Most physical attacks change what the camera sees, through a patch in the scene, a projector, or a laser. A few recent attacks modify the camera with a printed sticker or an extra optical element, but those alter every frame. Among these attack classes, SLASH is the only one that is camera-side, passive after deployment, persistent, and triggered by the scene. A scratched lens is also common wear, and its streak resembles ordinary lens flare.</p>
-          <div class="table-wrap">
-            <table class="compare-table">
-              <thead>
-                <tr><th scope="col">Attack class</th><th scope="col">Camera-side</th><th scope="col">Passive</th><th scope="col">Trigger</th><th scope="col">Persistent</th></tr>
-              </thead>
-              <tbody>
-                <tr><th scope="row">Scene patch / poster</th><td>✗</td><td>✓</td><td>✗</td><td>✓</td></tr>
-                <tr><th scope="row">Laser / projector</th><td>✗</td><td>✗</td><td>✓</td><td>✗</td></tr>
-                <tr><th scope="row">Adversarial lens flare</th><td>✗</td><td>✗</td><td>✓</td><td>✗</td></tr>
-                <tr><th scope="row">Camera sticker</th><td>✓</td><td>✓</td><td>✗</td><td>✓</td></tr>
-                <tr><th scope="row">Auxiliary optical element</th><td>✓</td><td>✓</td><td>✗</td><td>✓</td></tr>
-                <tr class="ours"><th scope="row">SLASH (ours)</th><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-              </tbody>
-            </table>
-          </div>
         </div>
       </div>
     </section>
@@ -179,7 +164,7 @@
               <p>A lightweight renderer draws a soft, light-like streak that brightens the image as scattered light would. Depth models respond mainly to the streak's position, direction, size, and contrast, so a full physics simulation is unnecessary.</p>
             </li>
             <li>
-              <h3>Scene-specific optimization</h3>
+              <h3>One scratch for all frames</h3>
               <p>A scratch cannot be changed after deployment, so SLASH searches for one scratch pattern that remains effective across every frame of a scene as the target vehicle moves. The search uses only model outputs, not gradients.</p>
             </li>
           </ol>
@@ -210,10 +195,6 @@
             <span class="stat-value">7.0&nbsp;m</span>
             <span class="stat-label">depth shift at night with real scratched covers (4.7&nbsp;m by day)</span>
           </div>
-          <div class="stat">
-            <span class="stat-value">2&nbsp;m</span>
-            <span class="stat-label">reported by a stereo camera for a surface 21&nbsp;m away, with one lens scratched</span>
-          </div>
         </div>
 
         <div class="findings-list">
@@ -233,12 +214,6 @@
             <h3>Physical experiments</h3>
             <div>
               <p>Patterns optimized on nuScenes were engraved onto acrylic and glass covers without re-tuning for the test site. The scratched camera shifted the vehicle's estimated distance by about 4.7&nbsp;m by day and 7.0&nbsp;m at night, within the meter-level range reported by prior physical attacks on depth estimation. With the vehicle's lights switched off, the same cover changed the estimate by less than 2%.</p>
-            </div>
-          </article>
-          <article class="finding">
-            <h3>Stereo camera</h3>
-            <div>
-              <p>With only one of its two lenses scratched, a commercial stereo camera reported a surface about 2&nbsp;m away where the true surface was 21&nbsp;m away. The clean second view did not prevent the attack.</p>
             </div>
           </article>
         </div>
