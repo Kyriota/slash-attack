@@ -55,7 +55,7 @@
       <div class="abstract-layout">
         <figure class="concept-figure">
           <div class="figure-frame"><img src="static/img/teaser.png" alt="(a) A small scratch on the lens. (b) Clean versus attacked image with a scratch-induced streak. (c) Bird's-eye view: the predicted car position shifts away from the ground truth."></div>
-          <figcaption class="figure-caption">(a) A small scratch on the lens looks like ordinary wear. (b) A bright light turns it into a streak. (c) The model places the car at the wrong distance.</figcaption>
+          <figcaption class="figure-caption">(a) A small scratch on the lens looks like ordinary wear. (b) Under the same bright light, the scratched camera shows a streak that the clean camera does not. (c) The model places the car at the wrong distance.</figcaption>
         </figure>
         <div class="abstract-copy">
           <h2 id="abstract-title">Abstract</h2>
@@ -128,17 +128,17 @@
           <li>
             <span class="step-label">STEP 3</span>
             <h3>Leave</h3>
-            <p>The scratch stays in place. The attacker never touches the car, its software, or the model again.</p>
+            <p>The scratch stays in place. The attacker never comes back and never touches the car's software or AI model.</p>
           </li>
           <li>
             <span class="step-label">STEP 4</span>
             <h3>Light sets it off</h3>
-            <p>When light from another car, such as its headlights or sunlight reflecting off its body, hits the scratch, a streak appears next to that car and changes how far away the model thinks it is.</p>
+            <p>When light from another car, such as its headlights or sunlight reflecting off its body, hits the scratch from the right angle and distance, a streak can land on that car and change how far away the model thinks it is.</p>
           </li>
         </ol>
         <div class="explanation">
           <h3>What is new</h3>
-          <p>Most physical attacks change what the camera sees: a patch placed in the scene, a projector, or a laser. A few recent attacks change the camera itself by putting a printed sticker or an extra piece of optics on the lens, but these alter every image the camera takes. Among these kinds of attacks, SLASH is the only one that sits on the camera, needs no attacker afterward, lasts, and only acts when light in the scene sets it off. Scratches are also common, and the streak looks like ordinary lens flare.</p>
+          <p>Most physical attacks change what the camera sees: a patch placed in the scene, a projector, or a laser. A few recent attacks change the camera itself by putting a printed sticker or an extra piece of optics on the lens, but these alter every image the camera takes. Among these kinds of attacks, SLASH is the only one that sits on the camera, needs no attacker afterward, lasts, and only acts when light in the scene sets it off. A scratch looks like ordinary wear, and the streak can pass for ordinary lens flare.</p>
         </div>
       </div>
     </section>
@@ -165,13 +165,13 @@
             </li>
             <li>
               <h3>One scratch for all frames</h3>
-              <p>A scratch cannot be changed once it is made, so SLASH searches for one scratch pattern that keeps working in every frame while the target car moves. The search simply tries candidate scratches and checks the model's predictions.</p>
+              <p>A scratch cannot be changed once it is made, so SLASH searches for one scratch pattern that works best on average across all frames while the target car moves. The search simply tries candidate scratches and checks the model's predictions.</p>
             </li>
           </ol>
         </div>
         <div class="explanation">
           <h3>Why a streak fools a depth model</h3>
-          <p>Judging distance from a single photo is hard, so depth models rely on visual hints such as edges, highlights, shading, and where an object touches the road. A streak lands right on these hints, next to the car whose light caused it. The model cannot tell that the streak comes from the lens rather than the scene, so it treats the streak as real information about the car's shape and distance.</p>
+          <p>Judging distance from a single photo is hard, so depth models rely on visual hints such as edges, highlights, shading, and where an object touches the road. A streak lands right on these hints, next to the car whose light caused it. The model cannot tell that the streak comes from the lens rather than the scene, so the streak can sway its judgment of the car's shape and distance.</p>
         </div>
       </div>
     </section>
@@ -185,11 +185,11 @@
         <div class="stats">
           <div class="stat">
             <span class="stat-value">32%</span>
-            <span class="stat-label">closer than the model's estimate without the attack (driving data, simulated streaks)</span>
+            <span class="stat-label">closer, at most, as a share of the car's true distance (driving data, simulated streaks)</span>
           </div>
           <div class="stat">
             <span class="stat-value">36%</span>
-            <span class="stat-label">farther than the model's estimate without the attack (driving data, simulated streaks)</span>
+            <span class="stat-label">farther, at most, as a share of the car's true distance (driving data, simulated streaks)</span>
           </div>
           <div class="stat">
             <span class="stat-value">7.0&nbsp;m</span>
@@ -213,7 +213,7 @@
           <article class="finding">
             <h3>On real cameras</h3>
             <div>
-              <p>We engraved scratch patterns designed on nuScenes onto acrylic and glass covers, without adjusting them for our test site. The scratched camera's estimate of the car's distance differed from the clean camera's by about 4.7&nbsp;m by day and 7.0&nbsp;m at night, in the same range as earlier real-world attacks on depth estimation. With the car's lights off, the same scratched cover changed the estimate by less than 2%.</p>
+              <p>We engraved scratch patterns designed on nuScenes onto acrylic and glass covers, without adjusting them for our test site. The scratched camera's estimate of the car's distance differed from the clean camera's by about 4.7&nbsp;m by day and 7.0&nbsp;m at night, roughly the same meter-level range as earlier real-world attacks on depth estimation (a rough comparison, not a head-to-head test). At night with the car's lights off, the same scratched cover changed the estimate by less than 2% on average.</p>
             </div>
           </article>
         </div>
@@ -236,7 +236,7 @@
             <div class="gallery">
               <figure><img src="static/img/scratched_covers.jpg" alt="Two glass covers on a gray surface; the left one carries the engraved scratch pattern." loading="lazy"><figcaption>Glass covers; the left one is engraved.</figcaption></figure>
               <figure><img src="static/img/tools.jpg" alt="A glass cutter, a box of microscope slides, and two slides." loading="lazy"><figcaption>Off-the-shelf glass and a glass cutter.</figcaption></figure>
-              <figure><img src="static/img/setup_camera.jpg" alt="Two stacked cameras on a tripod, each behind a transparent cover." loading="lazy"><figcaption>Stacked cameras with clean and scratched covers.</figcaption></figure>
+              <figure><img src="static/img/setup_camera.jpg" alt="Two stacked cameras on a tripod, each behind a transparent cover." loading="lazy"><figcaption>Stacked cameras with clean and scratched acrylic covers.</figcaption></figure>
               <figure><img src="static/img/setup_site.jpg" alt="The test site: tripod-mounted cameras facing a white SUV." loading="lazy"><figcaption>Outdoor test site.</figcaption></figure>
             </div>
           </figure>
@@ -253,7 +253,7 @@
         <div class="findings-list">
           <article class="finding">
             <h3>Flare removal</h3>
-            <p>Existing networks that remove lens flare from images barely weaken the nighttime attack (a 23% shift only drops to about 20%), and one of them also erases real headlights and lamps.</p>
+            <p>Existing networks that remove lens flare from images cut the daytime effect by more than half, but barely weaken it at night (a 23% shift only drops to about 20%). One of them also erases real headlights and a nearby lamp.</p>
           </article>
           <article class="finding">
             <h3>Image enhancement</h3>
@@ -289,7 +289,7 @@
   </main>
 
   <footer class="footer container">
-    <p>SLASH, NDSS Symposium 2027</p>
+    <p>This page explains SLASH in plain language for quick understanding. For precise statements and complete results, please refer to the paper.</p>
     <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
   </footer>
 
